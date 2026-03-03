@@ -20,6 +20,7 @@ public class Calculator extends JFrame {
         Dimension defaultDimensions = new Dimension(WIDTH, HEIGHT);
         Font defaultFont = new Font(FONT_NAME, Font.PLAIN, DISPLAY_FONT_SIZE);
         URL iconURL = getClass().getResource(ICON_PATH);
+        GridBagLayout mainLayout = new GridBagLayout();
 
         if (!(iconURL == null)) {
             ImageIcon icon = new ImageIcon(iconURL);
@@ -31,18 +32,30 @@ public class Calculator extends JFrame {
         setSize(defaultDimensions);
         setMinimumSize(defaultDimensions);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(mainLayout);
 
-        JTextField textField = new JTextField();
-        textField.setEditable(true);
-        textField.setFont(defaultFont);
+        JTextField display = new JTextField();
+        display.setEditable(true);
+        display.setFont(defaultFont);
+        display.setMargin(new Insets(20, 20, 20, 20));
 
         JPanel numpad = new JPanel(new GridLayout(4, 4, 5, 5), false);
 
-
         for (char c: NUMPAD_CHARACTERS) numpad.add(new Button(String.valueOf(c)));
 
-        add(textField, BorderLayout.NORTH);
-        add(numpad, BorderLayout.SOUTH);
+        // GridBagLayout Constraints
+        GridBagConstraints displayConstraints = new GridBagConstraints();
+        displayConstraints.fill = GridBagConstraints.HORIZONTAL;
+        displayConstraints.weightx = 1.0;
+
+        GridBagConstraints numpadConstraints = new GridBagConstraints();
+        numpadConstraints.fill = GridBagConstraints.BOTH;
+        numpadConstraints.weightx = 1.0;
+        numpadConstraints.weighty = 1.0;
+        numpadConstraints.gridy = 1;
+
+        add(display, displayConstraints);
+        add(numpad, numpadConstraints);
         setVisible(true);
     }
 }
