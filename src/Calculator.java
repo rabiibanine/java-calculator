@@ -1,15 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
-public class Calculator {
+public class Calculator extends JFrame {
     public Calculator() {
-        JFrame frame = new JFrame("Calculator");
         Dimension defaultDimensions = new Dimension(300, 400);
+        URL iconURL = getClass().getResource("/main/resources/images/icon/calculator-icon.png");
 
-        frame.setSize(defaultDimensions);
-        frame.setMinimumSize(defaultDimensions);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setIconImage();
+        if (!(iconURL == null)) {
+            ImageIcon icon = new ImageIcon(iconURL);
+            Image image = icon.getImage();
+            setIconImage(image);
+        }
+
+        setTitle("Calculator");
+        setSize(defaultDimensions);
+        setMinimumSize(defaultDimensions);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JTextField textField = new JTextField();
         textField.setEditable(true);
@@ -20,8 +27,8 @@ public class Calculator {
 
         for (char c: numpadCharacters) numpad.add(new Button(String.valueOf(c)));
 
-        frame.add(textField, BorderLayout.NORTH);
-        frame.add(numpad, BorderLayout.SOUTH);
-        frame.setVisible(true);
+        add(textField, BorderLayout.NORTH);
+        add(numpad, BorderLayout.SOUTH);
+        setVisible(true);
     }
 }
