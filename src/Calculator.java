@@ -18,17 +18,15 @@ public class Calculator extends JFrame {
     public static final Font displayFont = new Font(FONT_NAME, Font.PLAIN, DISPLAY_FONT_SIZE);
     public static final Font numpadFont = new Font(FONT_NAME, Font.PLAIN, BUTTON_FONT_SIZE);
 
-    private String inputString = "";
-
     private JTextField inputDisplay;
     private JTextField resultDisplay;
 
     // CONSTRUCTOR
     public Calculator() {
 
-        this.setupParams();
-        this.setupDisplays();
-        this.setupNumpad();
+        setupParams();
+        setupDisplays();
+        setupNumpad();
 
     }
 
@@ -53,15 +51,15 @@ public class Calculator extends JFrame {
 
     private void setupDisplays() {
 
-        this.inputDisplay = new JTextField();
-        inputDisplay.setEditable(true);
+        inputDisplay = new JTextField();
+        inputDisplay.setEditable(false);
         inputDisplay.setFont(displayFont);
         inputDisplay.setMargin(new Insets(20, 10, 20, 10));
         inputDisplay.setText("For testing");
 
         // Result Display
-        this.resultDisplay = new JTextField();
-        resultDisplay.setEditable(true);
+        resultDisplay = new JTextField();
+        resultDisplay.setEditable(false);
         resultDisplay.setFont(displayFont);
         resultDisplay.setMargin(new Insets(20, 10, 20, 10));
         resultDisplay.setHorizontalAlignment(JTextField.RIGHT);
@@ -94,8 +92,7 @@ public class Calculator extends JFrame {
             numPad.add(button);
             button.addActionListener(e -> {
                 JButton thisButton = (JButton) e.getSource();
-                this.handleButton(thisButton);
-
+                handleButton(thisButton);
             });
         }
 
@@ -113,20 +110,41 @@ public class Calculator extends JFrame {
     // METHODS
 
     public void setInputDisplayText(String inputText) {
-        this.inputDisplay.setText(inputText);
+        inputDisplay.setText(inputText);
     }
 
     public void clearInputDisplay(){
-        this.inputDisplay.setText("");
+        inputDisplay.setText("");
+    }
+
+    public void appendInputDisplayText(String inputText) {
+        String currentText = inputDisplay.getText();
+        inputDisplay.setText(currentText += inputText);
+    }
+
+    public void chopInputDisplayText() {
+        String currentText = inputDisplay.getText();
+        int currentTextLength = currentText.length();
+        String choppedText = currentText.substring(0 , currentTextLength - 1);
+        inputDisplay.setText(choppedText);
+    }
+
+    public void setResultDisplayText(String inputText) {
+        resultDisplay.setText(inputText);
     }
 
     public void clearResultDisplay(){
-        this.resultDisplay.setText("");
+        resultDisplay.setText("");
     }
 
 
-    public void handleButton() {
-
+    public void handleButton(JButton button) {
+        String buttonText = button.getText();
+        char buttonChar = buttonText.charAt(0);
+        if (Character.isDigit(buttonChar) || buttonText.equals(".") || buttonText.equals("(") || buttonText.equals(")") || buttonText.equals("+") || buttonText.equals("-") || buttonText.equals("/") || buttonText.equals("x"))
+            appendInputDisplayText(buttonText);
+        else if (buttonText.equals("Del")) chopInputDisplayText();
+        else if (buttonText.equals("AC")) clearInputDisplay();
     }
 
 }
