@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class Calculator extends JFrame {
@@ -16,14 +14,26 @@ public class Calculator extends JFrame {
 
     public static final String[] NUMPAD_CHARACTERS = {"(", ")", "AC", "Del", "7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3", "-", "0", ".", "=", "+"};
 
+    public static final Dimension defaultDimensions = new Dimension(WIDTH, HEIGHT);
+    public static final Font displayFont = new Font(FONT_NAME, Font.PLAIN, DISPLAY_FONT_SIZE);
+    public static final Font numpadFont = new Font(FONT_NAME, Font.PLAIN, BUTTON_FONT_SIZE);
+
+    private String inputString = "";
+
     private JTextField inputDisplay;
     private JTextField resultDisplay;
 
     // CONSTRUCTOR
     public Calculator() {
-        Dimension defaultDimensions = new Dimension(WIDTH, HEIGHT);
-        Font displayFont = new Font(FONT_NAME, Font.PLAIN, DISPLAY_FONT_SIZE);
-        Font numpadFont = new Font(FONT_NAME, Font.PLAIN, BUTTON_FONT_SIZE);
+
+        this.setupParams();
+        this.setupDisplays();
+        this.setupNumpad();
+
+    }
+
+    // HELPER FUNCTIONS
+    private void setupParams() {
         URL iconURL = getClass().getResource(ICON_PATH);
         GridBagLayout mainLayout = new GridBagLayout();
 
@@ -39,7 +49,10 @@ public class Calculator extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(mainLayout);
 
-        // Input Display
+    }
+
+    private void setupDisplays() {
+
         this.inputDisplay = new JTextField();
         inputDisplay.setEditable(true);
         inputDisplay.setFont(displayFont);
@@ -52,14 +65,6 @@ public class Calculator extends JFrame {
         resultDisplay.setFont(displayFont);
         resultDisplay.setMargin(new Insets(20, 10, 20, 10));
         resultDisplay.setHorizontalAlignment(JTextField.RIGHT);
-
-        // Numpad
-        JPanel numPad = new JPanel(new GridLayout(5, 4, 5, 5), false);
-        for (String c: NUMPAD_CHARACTERS) {
-            Button button = new Button(c);
-            button.setFont(numpadFont);
-            numPad.add(button);
-        }
 
         // # GridBagLayout Constraints
 
@@ -75,16 +80,53 @@ public class Calculator extends JFrame {
         resultDisplayConstraints.weightx = 1.0;
         resultDisplayConstraints.gridy = 1;
 
+        add(inputDisplay, inputDisplayConstraints);
+        add(resultDisplay, resultDisplayConstraints);
+    }
+
+    private void setupNumpad() {
+
+        // Numpad
+        JPanel numPad = new JPanel(new GridLayout(5, 4, 5, 5), false);
+        for (String c: NUMPAD_CHARACTERS) {
+            JButton button = new JButton(c);
+            button.setFont(numpadFont);
+            numPad.add(button);
+            button.addActionListener(e -> {
+                JButton thisButton = (JButton) e.getSource();
+                this.handleButton(thisButton);
+
+            });
+        }
+
         // ## Numpad Constraints
         GridBagConstraints numpadConstraints = new GridBagConstraints();
         numpadConstraints.fill = GridBagConstraints.BOTH;
         numpadConstraints.weightx = 1.0;
         numpadConstraints.weighty = 1.0;
-        numpadConstraints.gridy = 3;
+        numpadConstraints.gridy = 2;
 
-        add(inputDisplay, inputDisplayConstraints);
-        add(resultDisplay, resultDisplayConstraints);
         add(numPad, numpadConstraints);
         setVisible(true);
     }
+
+    // METHODS
+
+    public void setInputDisplayText(String inputText) {
+        this.inputDisplay.setText(inputText);
+    }
+
+    public void clearInputDisplay(){
+        this.inputDisplay.setText("");
+    }
+
+    public void clearResultDisplay(){
+        this.resultDisplay.setText("");
+    }
+
+
+    public void handleButton() {
+
+    }
+
 }
