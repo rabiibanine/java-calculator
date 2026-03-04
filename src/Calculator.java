@@ -1,6 +1,8 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.net.URL;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 public class Calculator extends JFrame {
 
@@ -12,12 +14,13 @@ public class Calculator extends JFrame {
     public static final String ICON_PATH = "/main/resources/images/icon/calculator-icon.png";
     public static final String TITLE = "Calculator";
 
-    public static final String[] NUMPAD_CHARACTERS = {"(", ")", "AC", "Del", "7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3", "-", "0", ".", "=", "+"};
+    public static final String[] NUMPAD_CHARACTERS = {"(", ")", "AC", "D", "7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3", "-", "0", ".", "=", "+"};
 
     public static final Dimension defaultDimensions = new Dimension(WIDTH, HEIGHT);
     public static final Font displayFont = new Font(FONT_NAME, Font.PLAIN, DISPLAY_FONT_SIZE);
     public static final Font numpadFont = new Font(FONT_NAME, Font.PLAIN, BUTTON_FONT_SIZE);
 
+    private JPanel ContentPane;
     private JTextField inputDisplay;
     private JTextField resultDisplay;
 
@@ -27,11 +30,13 @@ public class Calculator extends JFrame {
         setupParams();
         setupDisplays();
         setupNumpad();
+        setupStyling();
 
     }
 
     // HELPER FUNCTIONS
     private void setupParams() {
+        ContentPane = (JPanel) getContentPane();
         URL iconURL = getClass().getResource(ICON_PATH);
         GridBagLayout mainLayout = new GridBagLayout();
 
@@ -107,6 +112,17 @@ public class Calculator extends JFrame {
         setVisible(true);
     }
 
+    private void setupStyling(){
+
+        Border noBorder = BorderFactory.createEmptyBorder();
+        Border externalPadding = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+
+        inputDisplay.setBorder(noBorder);
+        resultDisplay.setBorder(noBorder);
+
+        ContentPane.setBorder(externalPadding);
+    }
+
     // METHODS
 
     public void setInputDisplayText(String inputText) {
@@ -125,6 +141,7 @@ public class Calculator extends JFrame {
     public void chopInputDisplayText() {
         String currentText = inputDisplay.getText();
         int currentTextLength = currentText.length();
+        if (currentTextLength == 0) return;
         String choppedText = currentText.substring(0 , currentTextLength - 1);
         inputDisplay.setText(choppedText);
     }
@@ -143,8 +160,7 @@ public class Calculator extends JFrame {
         char buttonChar = buttonText.charAt(0);
         if (Character.isDigit(buttonChar) || buttonText.equals(".") || buttonText.equals("(") || buttonText.equals(")") || buttonText.equals("+") || buttonText.equals("-") || buttonText.equals("/") || buttonText.equals("x"))
             appendInputDisplayText(buttonText);
-        else if (buttonText.equals("Del")) chopInputDisplayText();
+        else if (buttonText.equals("D")) chopInputDisplayText();
         else if (buttonText.equals("AC")) clearInputDisplay();
     }
-
 }
