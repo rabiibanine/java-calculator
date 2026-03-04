@@ -1,3 +1,5 @@
+package com.rabii.calculator.gui;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -12,7 +14,7 @@ public class Calculator extends JFrame {
     public static final int BUTTON_FONT_SIZE = 20;
     public static final String FONT_NAME = "Inter";
     public static final String ICON_PATH = "/main/resources/images/icon/calculator-icon.png";
-    public static final String TITLE = "Calculator";
+    public static final String TITLE = "com.rabii.calculator.gui.Calculator";
 
     public static final String[] NUMPAD_CHARACTERS = {"(", ")", "AC", "Del", "7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3", "-", "0", ".", "=", "+"};
 

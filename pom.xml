@@ -5,10 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.rabiibanine</groupId>
+    <groupId>com.rabii</groupId>
     <artifactId>scientific-calculator</artifactId>
     <version>0.0.1</version>
-    <name>Scientific Calculator</name>
+    <name>Scientific com.rabii.calculator.gui.Calculator</name>
 
     <dependencies>
         <dependency>
