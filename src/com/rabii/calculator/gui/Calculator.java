@@ -16,7 +16,7 @@ public class Calculator extends JFrame {
     public static final String ICON_PATH = "/main/resources/images/icon/calculator-icon.png";
     public static final String TITLE = "com.rabii.calculator.gui.Calculator";
 
-    public static final String[] NUMPAD_CHARACTERS = {"(", ")", "AC", "Del", "7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3", "-", "0", ".", "=", "+"};
+    public static final String[] NUMPAD_CHARACTERS = {"←", "→", "...", "...", "(", ")", "AC", "Del", "7", "8", "9", "/", "4", "5", "6", "x", "1", "2", "3", "-", "0", ".", "=", "+"};
 
     public static final Dimension DEFAULT_DIMENSIONS = new Dimension(WIDTH, HEIGHT);
     public static final Font DISPLAY_FONT = new Font(FONT_NAME, Font.PLAIN, DISPLAY_FONT_SIZE);
@@ -111,7 +111,7 @@ public class Calculator extends JFrame {
     private void setupNumpad() {
 
         // Numpad
-        numPad = new JPanel(new GridLayout(5, 4, 5, 5), false);
+        numPad = new JPanel(new GridLayout(6, 4, 5, 5), false);
         for (String c: NUMPAD_CHARACTERS) {
             JButton button = new JButton(c);
             button.setFont(NUMPAD_FONT);
@@ -176,6 +176,25 @@ public class Calculator extends JFrame {
         inputDisplay.setText(inputText);
     }
 
+    public void setInputDisplayCaretPosition(int caretPosition) {
+        inputDisplay.requestFocus();
+        try {
+            inputDisplay.setCaretPosition(caretPosition);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void moveInputDisplayCaretPositionLeft() {
+        int currentPosition = inputDisplay.getCaretPosition();
+        setInputDisplayCaretPosition(currentPosition - 1);
+    }
+
+    public void moveInputDisplayCaretPositionRight() {
+        int currentPosition = inputDisplay.getCaretPosition();
+        setInputDisplayCaretPosition(currentPosition + 1);
+    }
+
     public void clearInputDisplay(){
         inputDisplay.setText("");
     }
@@ -183,6 +202,14 @@ public class Calculator extends JFrame {
     public void appendInputDisplayText(String inputText) {
         String currentText = inputDisplay.getText();
         inputDisplay.setText(currentText += inputText);
+    }
+
+    public void insertInputDisplayText(String inputText) {
+        int currentPosition = inputDisplay.getCaretPosition();
+        String currentText = inputDisplay.getText();
+        String resultInputText = currentText.substring(0, currentPosition) + inputText + currentText.substring(currentPosition);
+        inputDisplay.setText(resultInputText);
+        inputDisplay.setCaretPosition(currentPosition + 1);
     }
 
     public void chopInputDisplayText() {
@@ -206,8 +233,10 @@ public class Calculator extends JFrame {
         String buttonText = button.getText();
         char buttonChar = buttonText.charAt(0);
         if (Character.isDigit(buttonChar) || buttonText.equals(".") || buttonText.equals("(") || buttonText.equals(")") || buttonText.equals("+") || buttonText.equals("-") || buttonText.equals("/") || buttonText.equals("x"))
-            appendInputDisplayText(buttonText);
+            insertInputDisplayText(buttonText);
         else if (buttonText.equals("Del")) chopInputDisplayText();
         else if (buttonText.equals("AC")) clearInputDisplay();
+        else if (buttonText.equals("←")) moveInputDisplayCaretPositionLeft();
+        else if (buttonText.equals("→")) moveInputDisplayCaretPositionRight();
     }
 }
