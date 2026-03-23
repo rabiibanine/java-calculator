@@ -1,29 +1,50 @@
 package com.rabii.calculator.engine;
 
+import com.rabii.calculator.engine.exceptions.LexicalException;
 import static com.rabii.calculator.engine.TokenType.*;
 
 public class Scanner {
 
-    private Token[] tokenList = new Token[200];
-    private TokenType currentTokenType;
-    private String currentValue;
+    private final static int ARRAY_SIZE = 200;
+
+    private Token[] tokenList = new Token[ARRAY_SIZE];
     private int currentListIndex = 0;
     private int currentStringIndex = 0;
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner();
-        Token[] testTokenList = scanner.getTokenList("5.3+3()123123()123.123.123");
-        System.out.println(java.util.Arrays.toString(testTokenList));
+    public Scanner(){
+        tokenList = new Token[ARRAY_SIZE];
+        currentListIndex = 0;
+        currentStringIndex = 0;
     }
 
     public Token[] getTokenList(String inputString) {
+        currentListIndex = 0;
+        currentStringIndex = 0;
         int inputStringLength = inputString.length();
 
         while (true) {
-            tokenList[currentListIndex] = getToken(inputString);
+
+            // Handling string end
             if (currentStringIndex >= inputStringLength) {
-               break;
+                Token EOLToken = new Token(EOL, null, currentStringIndex);
+                tokenList[currentListIndex] = EOLToken;
+                break;
             }
+
+            // Handling array boundary
+            if (currentListIndex >= ARRAY_SIZE) {
+                throw new LexicalException("Memory Overload: The given string has generated more tokens then the internal memory could handle.");
+            }
+
+            // Handling spaces?
+            if (inputString.charAt(currentStringIndex) == ' ') {
+                currentStringIndex++;
+                continue;
+            }
+
+            // Get the next token
+            tokenList[currentListIndex] = getToken(inputString);
+
             currentListIndex++;
         }
 
@@ -71,12 +92,19 @@ public class Scanner {
     }
 
     private String getNumber(String inputString) {
+        boolean hasDecimal = false;
         int numberLength = 1;
         while (true) {
 
             if (currentStringIndex + numberLength >= inputString.length()) break;
 
             char numberChar = inputString.charAt(currentStringIndex + numberLength);
+
+            if (numberChar == '.' && hasDecimal) {
+                throw new LexicalException("Invalid Format: More than 1 decimals are present in the number at index: " + currentStringIndex + ".");
+            }
+
+            if (numberChar == '.') hasDecimal = true;
 
             if (!(Character.isDigit(numberChar) || numberChar == '.')) break;
 
