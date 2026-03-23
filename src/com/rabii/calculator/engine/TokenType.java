@@ -8,4 +8,5 @@ public enum TokenType {
     SUBTRACT_OP,
     MULTIPLY_OP,
     DIVIDE_OP,
+    EOL,
 }
