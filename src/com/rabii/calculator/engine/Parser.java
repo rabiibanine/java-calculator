@@ -1,7 +1,7 @@
 package com.rabii.calculator.engine;
 
 import com.rabii.calculator.engine.exceptions.SyntaxException;
-import com.sun.java.swing.action.OpenAction;
+import com.rabii.calculator.engine.nodes.Node;
 
 import static com.rabii.calculator.engine.TokenType.*;
 
@@ -41,11 +41,11 @@ public class Parser {
     private Node term() {
         Node leftNode = factor();
 
-        while (currentToken.getType() == MULTIPLY_OP || currentToken.getType() == DIVIDE_OP) {
+        while (currentToken.getType() == MULTIPLY_OP || currentToken.getType() == DIVIDE_OP || currentToken.getType() == L_PAREN || currentToken.getType() == NUMBER) {
 
-            TokenType operator = currentToken.getType();
+            TokenType operator = currentToken.getType() == DIVIDE_OP ? DIVIDE_OP : MULTIPLY_OP;
 
-            advanceToken();
+            if (currentToken.getType() == MULTIPLY_OP || currentToken.getType() == DIVIDE_OP) advanceToken();
 
             Node rightNode = factor();
 
