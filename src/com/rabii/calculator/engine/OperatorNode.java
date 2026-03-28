@@ -3,8 +3,14 @@ package com.rabii.calculator.engine;
 public class OperatorNode extends Node {
 
     private final TokenType operator;
-    private final Node leftNode;
-    private final Node rightNode;
+    private Node leftNode;
+    private Node rightNode;
+
+    public OperatorNode(TokenType operator, Node leftNode) {
+        this.operator = operator;
+        this.leftNode = leftNode;
+        this.rightNode = null;
+    }
 
     public OperatorNode(TokenType operator, Node leftNode, Node rightNode) {
         this.operator = operator;
@@ -20,7 +26,13 @@ public class OperatorNode extends Node {
         return leftNode;
     }
 
-    public Node getRightNode() {
-        return rightNode;
+    public Node getRightNode() { return rightNode; }
+
+    public void setLeftNode(Node leftNode) {
+        this.leftNode = leftNode;
+    }
+
+    public void setRightNode(Node rightNode) {
+        this.rightNode = rightNode;
     }
 }
