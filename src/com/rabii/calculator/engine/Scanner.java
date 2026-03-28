@@ -82,7 +82,7 @@ public class Scanner {
                 return ADD_OP;
             case '-' :
                 return SUBTRACT_OP;
-            case 'x':
+            case '*':
                 return MULTIPLY_OP;
             case '/':
                 return DIVIDE_OP;
