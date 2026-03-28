@@ -1,4 +1,4 @@
-package com.rabii.calculator.engine;
+package com.rabii.calculator.engine.nodes;
 
 public class NumberNode extends Node {
 
@@ -10,6 +10,11 @@ public class NumberNode extends Node {
 
     public String getNumber() {
         return this.number;
+    }
+
+    @Override
+    public float evaluate() {
+        return Float.parseFloat(this.number);
     }
 
 }

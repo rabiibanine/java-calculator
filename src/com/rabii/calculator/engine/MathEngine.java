@@ -1,15 +1,18 @@
 package com.rabii.calculator.engine;
 
-import java.util.Arrays;
+import com.rabii.calculator.engine.nodes.Node;
 
 public class MathEngine {
     public static void main(String[] args) {
-        String result = calculate("5");
+        float result = calculate("5+3/3*3");
         System.out.println(result);
     }
-    public static String calculate(String inputString) {
+
+    public static float calculate(String inputString) {
         Scanner scanner = new Scanner();
         Token[] tokenList = scanner.getTokenList(inputString);
-        return Arrays.toString(tokenList);
+        Parser parser = new Parser(tokenList);
+        Node AST = parser.getAST();
+        return AST.evaluate();
     }
 }

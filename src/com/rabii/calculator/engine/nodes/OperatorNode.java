@@ -1,4 +1,7 @@
-package com.rabii.calculator.engine;
+package com.rabii.calculator.engine.nodes;
+
+import com.rabii.calculator.engine.TokenType;
+import com.rabii.calculator.engine.exceptions.EvaluationException;
 
 public class OperatorNode extends Node {
 
@@ -34,5 +37,21 @@ public class OperatorNode extends Node {
 
     public void setRightNode(Node rightNode) {
         this.rightNode = rightNode;
+    }
+
+    @Override
+    public float evaluate() {
+        switch (this.operator) {
+            case ADD_OP:
+                return leftNode.evaluate() + rightNode.evaluate();
+            case SUBTRACT_OP:
+                return leftNode.evaluate() - rightNode.evaluate();
+            case MULTIPLY_OP:
+                return leftNode.evaluate() * rightNode.evaluate();
+            case DIVIDE_OP:
+                return leftNode.evaluate() / rightNode.evaluate();
+            default:
+                throw new EvaluationException("Evaluation Error. Something went wrong during evaluation.");
+        }
     }
 }

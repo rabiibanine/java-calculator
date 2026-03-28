@@ -2,6 +2,8 @@ package com.rabii.calculator.engine;
 
 import com.rabii.calculator.engine.exceptions.SyntaxException;
 import com.rabii.calculator.engine.nodes.Node;
+import com.rabii.calculator.engine.nodes.NumberNode;
+import com.rabii.calculator.engine.nodes.OperatorNode;
 
 import static com.rabii.calculator.engine.TokenType.*;
 
