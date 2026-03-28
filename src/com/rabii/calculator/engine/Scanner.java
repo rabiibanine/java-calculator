@@ -7,7 +7,7 @@ public class Scanner {
 
     private final static int ARRAY_SIZE = 200;
 
-    private Token[] tokenList = new Token[ARRAY_SIZE];
+    private final Token[] tokenList;
     private int currentListIndex = 0;
     private int currentStringIndex = 0;
 
