@@ -84,14 +84,14 @@ public class Calculator extends JFrame {
         inputDisplay = new JTextField();
         inputDisplay.setEditable(false);
         inputDisplay.setFont(DISPLAY_FONT);
-        inputDisplay.setText("For testing");
+        inputDisplay.setText("");
 
         // Result Display
         resultDisplay = new JTextField();
         resultDisplay.setEditable(false);
         resultDisplay.setFont(DISPLAY_FONT);
         resultDisplay.setHorizontalAlignment(JTextField.RIGHT);
-        resultDisplay.setText("For testing");
+        resultDisplay.setText("");
 
         // # GridBagLayout Constraints
 
